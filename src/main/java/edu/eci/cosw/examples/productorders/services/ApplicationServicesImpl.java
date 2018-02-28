@@ -16,12 +16,16 @@
  */
 package edu.eci.cosw.examples.productorders.services;
 
+import edu.eci.cosw.examples.productorders.repositories.ClientsRepository;
 import edu.eci.cosw.examples.productorders.repositories.DispatchRepository;
 import edu.eci.cosw.examples.productorders.repositories.OrdersRepository;
 import edu.eci.cosw.examples.productorders.repositories.ProductsRepository;
+import edu.eci.cosw.examples.productorders.repositories.VehiclesRepository;
+import edu.eci.cosw.samples.model.Cliente;
 import edu.eci.cosw.samples.model.Despacho;
 import edu.eci.cosw.samples.model.Pedido;
 import edu.eci.cosw.samples.model.Producto;
+import edu.eci.cosw.samples.model.Vehiculo;
 import java.util.LinkedList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +46,12 @@ public class ApplicationServicesImpl implements ApplicationServices{
     
     @Autowired
     private DispatchRepository disprepo;
+    
+    @Autowired
+    private ClientsRepository clirepo;
+
+    @Autowired
+    private VehiclesRepository vehirepo;
     
     @Override
     public List<Pedido> getAllOrders() throws ServicesException{
@@ -65,5 +75,24 @@ public class ApplicationServicesImpl implements ApplicationServices{
         return disprepo.findOne(id);
     }
     
+    @Override
+    public List<Vehiculo> getVehicles(int idProduct) throws ServicesException {
+        return vehirepo.getVehicles(idProduct);
+    }
+
+    @Override
+    public List<Cliente> getClients(long value) throws ServicesException {
+        return clirepo.getClientes(value);
+    }
+
+    @Override
+    public void addDispatch(Despacho dispatch) throws ServicesException {
+        disprepo.saveAndFlush(dispatch);
+    }
+    
+    @Override
+    public Vehiculo vehicleById(String id) throws ServicesException {
+        return vehirepo.findOne(id);
+    }
     
 }
